@@ -1,0 +1,26 @@
+version: '3'
+services:
+  temp-db:
+    image: mysql:latest
+    volumes:
+      - mysql_data:/var/lib/mysql
+    env_file: .env
+    networks:
+      - net
+  
+  temp-app:
+    image: marko3716/tempconverter:latest
+    env_file: .env
+    ports:
+      - "5000:5000"
+    depends_on:
+      - temp-db
+    networks:
+      - net
+
+volumes:
+  mysql_data:
+
+networks:
+  net:
+    driver: overlay
